@@ -16,6 +16,8 @@
             width: 250px;
             margin: 20px;
             margin-top: 100px;
+            border-radius: 6px;
+            border: 3px solid black;
         }
         .box,.button-box{
             justify-content: center;
@@ -36,6 +38,11 @@
             justify-content: center;
             display: flex;
             align-items:center;
+        }
+        .red{
+            color: red;
+            border: 3px solid red;
+
         }
        
         
@@ -71,8 +78,10 @@
         <button type="button" value="button">Click to Random</button>
     </div>
 
-
     <script  >
+        window.onclick= function(){
+                    
+        
         // card number and type
         var CARD_TYPE = ['♣', '♦', '♥', '♠']
         var CARD_NUMBER = ['A', '1', '2', '3', '4', '5', '6',' 7', '8', '9', '10', 'J', 'Q', 'K']
@@ -85,104 +94,71 @@
         }
 
         // how to use random function
-            var cardType = CARD_TYPE[random(CARD_TYPE.length)]
-            var cardNumber = CARD_NUMBER[random(CARD_NUMBER.length)]
-            document.getElementById("type1").innerHTML = cardType
-            document.getElementById("number1").innerHTML = cardNumber
-    </script>
+        
+            var cardType1 = CARD_TYPE[random(CARD_TYPE.length)]
+            var cardNumber1 = CARD_NUMBER[random(CARD_NUMBER.length)]
+            document.getElementById("type1").innerHTML = cardType1
+            document.getElementById("number1").innerHTML = cardNumber1
 
+            var cardType2 = CARD_TYPE[random(CARD_TYPE.length)]
+            var cardNumber2 = CARD_NUMBER[random(CARD_NUMBER.length)]
+            document.getElementById("type2").innerHTML = cardType2
+            document.getElementById("number2").innerHTML = cardNumber2
 
+            var cardType3 = CARD_TYPE[random(CARD_TYPE.length)]
+            var cardNumber3 = CARD_NUMBER[random(CARD_NUMBER.length)]
+            document.getElementById("type3").innerHTML = cardType3
+            document.getElementById("number3").innerHTML = cardNumber3
 
+            var cardType4 = CARD_TYPE[random(CARD_TYPE.length)]
+            var cardNumber4 = CARD_NUMBER[random(CARD_NUMBER.length)]
+            document.getElementById("type4").innerHTML = cardType4
+            document.getElementById("number4").innerHTML = cardNumber4
 
-    <script  >
-        // card number and type
-        var CARD_TYPE = ['♣', '♦', '♥', '♠']
-        var CARD_NUMBER = ['A', '1', '2', '3', '4', '5', '6',' 7', '8', '9', '10', 'J', 'Q', 'K']
-
-        // random function
-        // max: number > 0
-        // return [0, max -1]
-        function random(max) {
-            return parseInt(Math.random() * max) % max
-        }
-
-        // how to use random function
-            var cardType = CARD_TYPE[random(CARD_TYPE.length)]
-            var cardNumber = CARD_NUMBER[random(CARD_NUMBER.length)]
-            
-            document.getElementById("type2").innerHTML = cardType
-            document.getElementById("number2").innerHTML = cardNumber
-
-    </script>
-
-    <script  >
-        // card number and type
-        var CARD_TYPE = ['♣', '♦', '♥', '♠']
-        var CARD_NUMBER = ['A', '1', '2', '3', '4', '5', '6',' 7', '8', '9', '10', 'J', 'Q', 'K']
-        // random function
-        // max: number > 0
-        // return [0, max -1]
-        function random(max) {
-            return parseInt(Math.random() * max) % max
-        }
-
-        // how to use random function
-            var cardType = CARD_TYPE[random(CARD_TYPE.length)]
-            var cardNumber = CARD_NUMBER[random(CARD_NUMBER.length)]
-            document.getElementById("type3").innerHTML = cardType
-            document.getElementById("number3").innerHTML = cardNumber
-    </script>
-
-    <script  >
-        // card number and type
-        var CARD_TYPE = ['♣', '♦', '♥', '♠']
-        var CARD_NUMBER = ['A', '1', '2', '3', '4', '5', '6',' 7', '8', '9', '10', 'J', 'Q', 'K']
-        // random function
-        // max: number > 0
-        // return [0, max -1]
-        function random(max) {
-            return parseInt(Math.random() * max) % max
-        }
-
-        // how to use random function
-            var cardType = CARD_TYPE[random(CARD_TYPE.length)]
-            var cardNumber = CARD_NUMBER[random(CARD_NUMBER.length)]
-            document.getElementById("type4").innerHTML = cardType
-            document.getElementById("number4").innerHTML = cardNumber
-    </script>
-
-    <script  >
-        // card number and type
-        var CARD_TYPE = ['♣', '♦', '♥', '♠']
-        var CARD_NUMBER = ['A', '1', '2', '3', '4', '5', '6',' 7', '8', '9', '10', 'J', 'Q', 'K']
-
-        // random function
-        // max: number > 0
-        // return [0, max -1]
-        function random(max) {
-            return parseInt(Math.random() * max) % max
-        }
-
-        // how to use random function
-            var cardType = CARD_TYPE[random(CARD_TYPE.length)]
-            var cardNumber = CARD_NUMBER[random(CARD_NUMBER.length)]
-            document.getElementById("type4").innerHTML = color(cardType)
-            document.getElementById("number4").innerHTML = cardNumber
+    }
+        
+    
     </script>
 
     <script>
+        window.onload = function() {
 
-        window.onload = (event) => {
-            
-            if(cardType==='♥'){
+            if(cardType1==='♥'||cardType1==='♦'){
                 document.getElementById("type1").style.color = 'red';
+                document.getElementById("number1").style.color = 'red';
             }
-            
+            if(cardType2==='♥'||cardType2==='♦'){
+                document.getElementById("type2").style.color = 'red';
+                document.getElementById("number2").style.color = 'red';
+            }
+            if(cardType3==='♥'||cardType3==='♦'){
+                document.getElementById("type3").style.color = 'red';
+                document.getElementById("number3").style.color = 'red';
+            }
+            if(cardType4==='♥'||cardType4==='♦'){
+                document.getElementById("type4").style.color = 'red';
+                document.getElementById("number4").style.color = 'red';
+            }
+
+            var body = document.getElementsByClassName('random-botton')[0]
+            var botton = document.createElement('botton')
+
+            body.append(botton)
+                    
+                    botton.addEventListener('click',function ()
+                    {
+                        console.log('botton : click')
+                    })
 
 
         };
-    
     </script>
+
+  
+
+    
+
+    
     
 </body>
 </html>
