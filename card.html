@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Card</title>
+    <style>
+        body{
+            background-color: green;
+        }
+        .box-container{
+            justify-content: center;
+            display: flex;
+            align-items: center;
+        }
+        .box-content{
+            width: 250px;
+            height: 400px;
+            background-color: white;
+            border-radius: 6px;
+            margin: 12px;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            box-shadow: 0 0 10px 1px #666;
+            border: 2px solid #666;
+            
+        }
+        .type-card{
+            text-align: right;
+            font-size: 36px;
+        }
+        .number-card{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 54px;
+            height: 100%;
+        }
+        .random-botton{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            height: 100px;
+            font-size: 36px;
+        }
+      /*  .box-content-red{
+            width: 250px;
+            height: 400px;
+            background-color: white;
+            border-radius: 6px;
+            margin: 12px;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            box-shadow: 0 0 10px 1px #666;
+            border: 2px solid red;
+            color: red; 
+        }*/
+        .box-content.red{
+            border: 2px solid red;
+            color: red;
+            
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="box-container">
+        <div class="box-content">
+            <div class="type-card">X</div>
+            <div class="number-card">y</div>
+        </div>
+        <div class="box-content">
+            <div class="type-card">X</div>
+            <div class="number-card">y</div>
+        </div>
+        <div class="box-content">
+            <div class="type-card">X</div>
+            <div class="number-card">y</div>
+        </div>
+        <div class="box-content">
+            <div class="type-card">X</div>
+            <div class="number-card">y</div>
+        </div>
+    </div>
+</div>
+
+<div class="button-box">
+    <button class="random-botton" onclick="onclickBotton()">Click to Random</button>
+   
+ </div>
+
+ <script>
+    // card number and type
+        var CARD_TYPE = ['♣', '♦', '♥', '♠']
+        var CARD_NUMBER = ['A', '2', '3', '4', '5', '6','7', '8', '9', '10', 'J', 'Q', 'K']
+
+    // random function
+    // max: number > 0
+    // return [0, max -1]
+        function random(max) {
+            return parseInt(Math.random() * max) % max
+        }
+
+// how to use random function
+        
+        function onclickBotton(){
+          
+            var typeCardElementList = document.getElementsByClassName('type-card')
+            var numberCardElementList = document.getElementsByClassName('number-card')
+            var boxElementList = document.getElementsByClassName('box-content')
+
+            for (var count = 0; count<=typeCardElementList.length; count++){
+                var cardType = CARD_TYPE[random(CARD_TYPE.length)]
+                var cardNumber = CARD_NUMBER[random(CARD_NUMBER.length)]
+
+                
+
+            if(cardType==='♦'|| cardType==='♥'){
+                boxElementList[count].classList.add("red")
+                //boxElementList[count].setAttribute("class","box-content-red")
+            }else{
+                boxElementList[count].classList.remove("red")
+                //boxElementList[count].setAttribute("class","box-content")
+            }
+
+            typeCardElementList[count].innerText = cardType
+            numberCardElementList[count].innerText = cardNumber
+
+
+            }
+
+            console.log(cardType,cardNumber)
+        }
+ </script>
+    
+</body>
+</html>
