@@ -8,6 +8,8 @@
     <style>
         body{
             background-color: green;
+            height: 100%;
+            width: 100%;
         }
         .box-container{
             justify-content: center;
@@ -113,11 +115,9 @@
             var numberCardElementList = document.getElementsByClassName('number-card')
             var boxElementList = document.getElementsByClassName('box-content')
 
-            for (var count = 0; count<=typeCardElementList.length; count++){
+            for (var count = 0; count<typeCardElementList.length; count++){
                 var cardType = CARD_TYPE[random(CARD_TYPE.length)]
                 var cardNumber = CARD_NUMBER[random(CARD_NUMBER.length)]
-
-                
 
             if(cardType==='♦'|| cardType==='♥'){
                 boxElementList[count].classList.add("red")
