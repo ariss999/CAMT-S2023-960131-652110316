@@ -8,38 +8,39 @@
     <style>
         body{
             background-color: white;
+            margin: 0;
+            padding: 10px;
         }
         .board{
-            position: absolute;
             background-color: green;
             height: 100%;
             width: 100%;
-            right: 10px;
-            top: 10px;
-            bottom: 10px;
-            left: 10px;
-            border-radius: 5px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            border-radius: 5px 5px 0 0;
         }
         button{
             position: absolute;
-            bottom: 0;
-            right: 0;
-            left: 0;
             width: 100%;
             height: 10%;
+            
         }
         .player-zone{
             position: absolute;
             right: 0;
             height: 100%;
             width: 15%;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
 
         }
         .player-a,.player-b {
             bottom: 0;
             color: white;
             width: 100%;
-            height: 45%;
             border: 1px solid #666;
             display: flex;
             flex-direction: column;
@@ -53,7 +54,6 @@
             font-size: 50px;
         }
         .card-zone{
-            position: absolute;
             display: flex;
             width: 85%;
             height: 90%;
@@ -69,9 +69,10 @@
             display: flex;
             flex-direction: column;
             margin: 10px 0px 10px 10px;
-            display: inline-block;
-            
-            
+        }
+        .card.red{
+          color: red;
+          border: 2px solid red;
         }
         .board-content{
             display: flex;
@@ -90,14 +91,13 @@
             font-size: 64px;
             
         }
-
         .face-down{
-            background-color:rgb(164, 164, 164);
-            color: aliceblue;
-            border: 2px solid aliceblue;
-            box-shadow: 0 0 10px 1px #666;
-            display: inline-block;
-            
+          border: 2px solid aliceblue;
+          color: aliceblue;
+          background-color: #929292;
+        }
+        .card .face-down .card-title{
+          display: none;
         }
 
 
@@ -173,7 +173,7 @@
             { value: ['♣', '7'], isFaceDown: true },
             { value: ['♣', '8'], isFaceDown: false },
             { value: ['♣', '9'], isFaceDown: true },
-            { value: ['♣', '10'], isFaceDown: true },
+            { value: ['♣', '10'],isFaceDown: true },
             { value: ['♣', 'J'], isFaceDown: true },
             { value: ['♣', 'Q'], isFaceDown: true },
             { value: ['♣', 'K'], isFaceDown: false },
@@ -190,6 +190,32 @@
             { value: ['♥', 'J'], isFaceDown: true },
             { value: ['♥', 'Q'], isFaceDown: true },
             { value: ['♥', 'K'], isFaceDown: false },
+            { value: ['♦', 'A'], isFaceDown: true },
+            { value: ['♦', '2'], isFaceDown: false },
+            { value: ['♦', '3'], isFaceDown: true },
+            { value: ['♦', '4'], isFaceDown: false },
+            { value: ['♦', '5'], isFaceDown: true },
+            { value: ['♦', '6'], isFaceDown: true },
+            { value: ['♦', '7'], isFaceDown: true },
+            { value: ['♦', '8'], isFaceDown: false },
+            { value: ['♦', '9'], isFaceDown: true },
+            { value: ['♦', '10'],isFaceDown: true },
+            { value: ['♦', 'J'], isFaceDown: true },
+            { value: ['♦', 'Q'], isFaceDown: true },
+            { value: ['♦', 'K'], isFaceDown: false },
+            { value: ['♠', 'A'], isFaceDown: true },
+            { value: ['♠', '2'], isFaceDown: true },
+            { value: ['♠', '3'], isFaceDown: false },
+            { value: ['♠', '4'], isFaceDown: false },
+            { value: ['♠', '5'], isFaceDown: true },
+            { value: ['♠', '6'], isFaceDown: false },
+            { value: ['♠', '7'], isFaceDown: true },
+            { value: ['♠', '8'], isFaceDown: true },
+            { value: ['♠', '9'], isFaceDown: true },
+            { value: ['♠', '10'], isFaceDown: true },
+            { value: ['♠', 'J'], isFaceDown: true },
+            { value: ['♠', 'Q'], isFaceDown: true },
+            { value: ['♠', 'K'], isFaceDown: false },
         ]
 
         function htmlToElem(html) {
@@ -198,20 +224,32 @@
             temp.innerHTML = html;
             return temp.content.firstChild;
           }
+
+          var CARD_TYPE = ['♣', '♦', '♥', '♠']
+          var CARD_NUMBER = ['A', '2', '3', '4', '5', '6','7', '8', '9', '10', 'J', 'Q', 'K']
+
+          function random(max) {
+              return parseInt(Math.random() * max) % max
+          }
           
           function renderCardList() {
+
+
 
             
             // TODO: define cardZoneElm here
             // before append any DOM(s), you need to clear all children of cardZoneElm
             var cardZoneElm = document.getElementsByClassName('card-zone')[0]
-
+            var boolean = [true,false]
+            
             cardZoneElm.innerHTML = ""
-
+            
               for (var idx=0; idx < cardList.length; idx++) {
                   // TODO:
                   // if isFaceDown is true, create a card component with 'face-down' class
                   var cardElm = cardZoneElm[idx]
+                  var randomIsFaceDown = boolean[random(boolean.length)]
+                  cardList[idx].isFaceDown = randomIsFaceDown
 
                 if(cardList[idx].isFaceDown === true){
                     cardElm = htmlToElem(
@@ -229,10 +267,50 @@
                   cardZoneElm.append(cardElm)
                   
             }
+
+       
+                  var CARD_TYPE = ['♣', '♦', '♥', '♠']
+                  var CARD_NUMBER = ['A', '2', '3', '4', '5', '6','7', '8', '9', '10', 'J', 'Q', 'K']
+
+                  function random(max) {
+                      return parseInt(Math.random() * max) % max
+                  }
+          
+                      var typeCardElementList = document.getElementsByClassName('card-title')
+                      var numberCardElementList = document.getElementsByClassName('card-body')
+                      var cardElementList = document.getElementsByClassName('card')
+          
+                      for (var idx = 0; idx<cardElementList.length; idx++){
+                          var cardType = CARD_TYPE[random(CARD_TYPE.length)]
+                          var cardNumber = CARD_NUMBER[random(CARD_NUMBER.length)]
+
+                      if(cardList[idx].isFaceDown === false){
+          
+                        if(cardType ==='♦'|| cardType ==='♥'){
+                            cardElementList[idx].classList.add("red")
+                            
+                        }else{
+                            cardElementList[idx].classList.remove("red")
+                            
+                        }
+                      }else{
+                        cardType = ""
+                        cardNumber = "?"
+                      }
+          
+                      typeCardElementList[idx].innerText = cardType
+                      numberCardElementList[idx].innerText = cardNumber
+          
+          
+                      }
+          
+                      console.log(cardType,cardNumber)
+                  
+           
+
           }
 
-        var CARD_TYPE = ['♣', '♦', '♥', '♠']
-        var CARD_NUMBER = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+    
         
 
 
