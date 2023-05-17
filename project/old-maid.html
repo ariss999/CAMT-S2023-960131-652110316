@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Old maid</title>
+</head>
+<body>
+    <div class="bord">
+        <div class="bord-content">
+            <div class="card-bot-zone">
+                <div class="card face-down">
+                    <div class="card-title">
+                        ♣
+                  </div>
+                    <div class="card-body">
+                        9
+                    </div>
+                </div>
+            </div>
+            <div class="card-bot-zone">
+                <div class="card face-down">
+                    <div class="card-title">
+                        ♣
+                  </div>
+                    <div class="card-body">
+                        9
+                    </div>
+                </div>
+            </div>
+            <div class="card-bot-zone">
+                <div class="card face-down">
+                    <div class="card-title">
+                        ♣
+                  </div>
+                    <div class="card-body">
+                        9
+                    </div>
+                </div>
+            </div>
+            <div class="card-player-zone">
+                <div class="card">
+                    <div class="card-title">
+                        ♣
+                  </div>
+                    <div class="card-body">
+                        9
+                    </div>    
+                </div> 
+                <div>
+                    <button class="confirm-button"></button>Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script> 
+
+        
+        function random(max) {
+            return parseInt(Math.random() * max) % max
+          }
+
+        function shuffleCardList() 
+        {
+            cardList.sort(function() {
+            return 0.5 - Math.random();})
+        }
+
+        function shuffleNumberOfCard() 
+        {
+            NUMBER_OF_CARD.sort(function() {
+            return 0.5 - Math.random();})
+        }
+        
+        function htmlToElem(html) 
+        {
+            let temp = document.createElement('template');
+            html = html.trim(); // Never return a space text node as a result
+            temp.innerHTML = html;
+            return temp.content.firstChild;
+        }
+
+        // var cardList = [
+        //     { value: ['♣', 'A'], isFaceDown: true },
+        //     { value: ['♣', '2'], isFaceDown: false },
+        //     { value: ['♣', '3'], isFaceDown: true },
+        //     { value: ['♣', '4'], isFaceDown: false },
+        //     { value: ['♣', '5'], isFaceDown: true },
+        //     { value: ['♣', '6'], isFaceDown: true },
+        //     { value: ['♣', '7'], isFaceDown: true },
+        //     { value: ['♣', '8'], isFaceDown: false },
+        //     { value: ['♣', '9'], isFaceDown: true },
+        //     { value: ['♣', '10'], isFaceDown: true },
+        //     { value: ['♣', 'J'], isFaceDown: true },
+        //     { value: ['♣', 'Q'], isFaceDown: true },
+        //     { value: ['♣', 'K'], isFaceDown: false },
+        //     { value: ['♥', 'A'], isFaceDown: true },
+        //     { value: ['♥', '2'], isFaceDown: true },
+        //     { value: ['♥', '3'], isFaceDown: false },
+        // ] 
+
+        var CARD_TYPE = ['♣', '♦', '♥', '♠']
+        var CARD_NUMBER = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K']
+        var CARD_PLAYER = ['player','bot1','bot2','bot3']
+        var NUMBER_OF_CARD = [14,13,13,13]
+        var cardList = []//arraycardlist
+        var cardInHand = new Array(4); //ar
+
+        function renderCardList () {
+
+            let index = 0;
+            for(var player=0; player<CARD_PLAYER.length; player++){
+                cardInHand[player] = [];
+                //cardInHand[player] = new Array(NUMBER_OF_CARD[player]);
+                for(var idx = 0; idx<NUMBER_OF_CARD[player]; idx++){
+                    cardInHand[player].push({ 
+                        id: cardList[index].id,
+                        value: [cardList[index].value[0], cardList[index].value[1]],
+                        isFaceDown: cardList[index].isFaceDown,
+                      })
+                    //cardInHand[player][idx] = new Array(3); // Initialize the inner array
+                    //cardInHand[player][idx][0] = CARD_PLAYER[player];
+                    //cardInHand[player][idx][1] = cardList[index][0];
+                    //cardInHand[player][idx][2] = cardList[index][1];
+                    index++;
+                }
+                
+               
+            }
+        }
+
+        
+        function generateCards ()
+        {
+            let value =0;
+
+            for(let type=0; type<CARD_TYPE.length; type++){
+              
+                for(let number=0; number<CARD_NUMBER.length; number++){
+                    //cardList[value] = new Array(2);
+                    cardList.push({ 
+                        id: value,
+                        value: [CARD_TYPE[type], CARD_NUMBER[number]],
+                        isFaceDown: true
+                      })
+                    value++
+                }
+            }
+
+            cardList.push({ 
+                id: value,
+                value: [777,777],
+                isFaceDown: true
+              })
+
+        }
+            
+
+        function printCart (){
+            for(var idx=0; idx<cardList.length; idx++){
+                console.log(cardList[idx].id,cardList[idx].value[0],cardList[idx].value[1]);
+            }
+        }
+        //function printCartInHand (){
+        //    for(var idx = 0; idx<CARD_PLAYER.length; idx++){
+        //        for(var numberOfcard = 0; numberOfcard<NUMBER_OF_CARD.length; numberOfcard++){
+        //            console.log(cardInHand[idx][numberOfcard].id,cardInHand[idx][numberOfcard].value[0],cardInHand[idx][numberOfcard].value[1]);
+        //        }
+        //    }
+        //}
+
+        function printCartInHand() {
+            for (var player = 0; player < CARD_PLAYER.length; player++) {
+                console.log(player);
+              for (var numberOfcard = 0; numberOfcard < NUMBER_OF_CARD[player]; numberOfcard++) {
+                console.log(
+                  //cardInHand[player][numberOfcard].id,
+                  //cardInHand[player][numberOfcard].value[0],
+                  //cardInHand[player][numberOfcard].value[1]
+                  
+                );
+              }
+              console.log(cardInHand[player]);
+            }
+
+            
+          }
+          
+
+          function removeCardFromHand(player, cardIndex) {
+            if (player >= 0 && player < cardInHand.length && cardIndex >= 0 && cardIndex < cardInHand[player].length) {
+              cardInHand[player].splice(cardIndex, 1);
+            }
+            checkGameEnd();
+          }
+          
+
+        function matchCards(player) {
+            var matchedCards = [];
+            var playerHand = cardInHand[player];
+          
+            for (var i = 0; i < playerHand.length; i++) {
+              for (var j = i + 1; j < playerHand.length; j++) {
+                if (playerHand[i].value[1] === playerHand[j].value[1]) {
+                  // Matching condition, adjust as per your game rules
+                  matchedCards.push(playerHand[i]);
+                  matchedCards.push(playerHand[j]);
+                  removeCardFromHand(player, i);
+                  removeCardFromHand(player, j);
+                }
+              }
+            }
+            console.log(matchedCards);
+            return matchedCards;
+          }
+
+          function checkGameEnd (){
+            for(var player = 0; player<CARD_PLAYER.length; player++ ){
+                if(cardInHand[player] === null)
+                {
+                    console.log("end")
+                    return false;
+                }else{
+                    console.log("continue")
+                    return true;
+                }
+            }
+          }
+
+
+
+
+ /*         function rank ()
+          {
+            var first ;
+            var second ;
+            var third ;
+            var fourth;
+
+           
+                var cardSort = cardInHand.sort(function(a, b) {
+                return a.length - b.length; // Sort based on length
+                });
+
+                for(let i=0; i<cardSort.length; i++)
+                {
+                    if(i==0)
+                    {
+                        console.log("1 : "+CARD_PLAYER[i])
+
+                    }
+                    else if (i==1)
+                    {
+                        console.log("2 : "+CARD_PLAYER[i])
+                    }
+                    else if (i==2)
+                    {
+                        console.log("3 : "+CARD_PLAYER[i])
+                    }
+                    console.log(cardSort)
+                    
+                }
+
+                for(var player = 0; player<CARD_PLAYER.length; player++ ){
+                var idx =0;
+                for(var player = 0; player<CARD_PLAYER.length; player++){
+                    if(cardInHand[player][idx].value[0]===777){
+                        fourth = CARD_PLAYER[player];
+                    }
+                }
+                
+                }
+                console.log("4 :"+fourth)
+                
+           
+
+       }*/
+
+    //    function rank() {
+    //     var fourth;
+      
+    //     for (var player = 0; player < CARD_PLAYER.length; player++) {
+    //       var idx = 0;
+    //       for (var handIdx = 0; handIdx < cardInHand[player].length; handIdx++) {
+    //         if (cardInHand[player][handIdx].value[0] === 777) {
+    //           fourth = CARD_PLAYER[player];
+    //           cardInHand[player].splice(handIdx, 1); // ใช้ splice() เพื่อลบสมาชิกในอาร์เรย์หลัก
+    //           break; // หยุดการทำงานของลูปภายใน
+    //         }
+    //       }
+    //     }
+      
+    //     var cardSort = cardInHand.sort(function(a, b) {
+    //       return a.length - b.length; // เรียงลำดับตามความยาวของ
+    //     })
+
+    //     console.log(cardSort);
+    //     console.log(fourth);
+    
+    // }
+
+    function rankPlayers(cardInHand) {
+  var players = [];
+  cardInHand[1] = null
+
+  for (var player = 0; player < cardInHand.length; player++) {
+    var currentPlayer = CARD_PLAYER[player];
+    var currentHand = cardInHand[player];
+
+    if (currentHand === null) {
+      // ถ้าไพ่ในมือผู้เล่นเป็น null ให้เป็นผู้ชนะ
+      players.push(currentPlayer);
+    } else if (currentHand.some(card => card.value === 777)) {
+      // ถ้ามีไพ่ในมือผู้เล่นมีค่าเป็น 777 ให้เป็นอันดับที่ 4
+      players[3] = currentPlayer;
+    } else {
+      // ถ้าไม่เข้าเงื่อนไขข้างต้น ให้เรียงผู้เล่นตามจำนวนไพ่ในมือจากน้อยไปมาก
+      if (players.length === 0) {
+        players.push(currentPlayer);
+      } else if (players.length === 1 || currentHand.length < cardInHand[player].length) {
+        players.splice(1, 0, currentPlayer); // เพิ่มเป็นอันดับที่ 2
+      } else {
+        players[2] = currentPlayer; // เป็นอันดับที่ 3
+      }
+    }
+  }
+  console.log(players);
+  return players;
+}
+
+
+  
+          
+          window.onload = function () {
+            generateCards ();
+            printCart();
+            console.log("shuffleCardList");
+            shuffleCardList();
+            printCart();
+            shuffleNumberOfCard(); 
+            renderCardList();
+            printCartInHand();
+            matchCards(0);
+            matchCards(1);
+            matchCards(2);
+            matchCards(3);
+            console.log("matched")
+            console.log(cardInHand[0])
+            console.log(cardInHand[1])
+            console.log(cardInHand[2])
+            console.log(cardInHand[3])
+            printCartInHand();
+            console.log("rank")
+            rankPlayers(cardInHand);
+            
+            
+        }
+          
+
+       
+    
+    </script>
+    
+</body>
+</html>

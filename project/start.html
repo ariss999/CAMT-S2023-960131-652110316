@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OLD MAID GAME</title>
+  <style>
+    body {
+      background-color: #609ED7; /* สีพื้นหลัง */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    button {
+      padding: 50px;
+      margin-top: 20px;
+      font-size: 50px;
+      background-color: #FFCC00;
+      color: rgb(3, 3, 3);
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 50px;
+    }
+  </style>
+</head>
+<body>
+  <img src="letsplay.png" width="50%" hight="50%" alt="รูปภาพ">
+  <button id="startButton">Start</button>
+
+  <script>
+    // เรียกใช้งานปุ่ม "Start" โดยตรง
+    var startButton = document.getElementById("startButton");
+
+    // เพิ่มเหตุการณ์คลิกปุ่ม "Start"
+    startButton.addEventListener("click", function() {
+      alert("เริ่มต้นเว็บไซต์!");
+    });
+  </script>
+</body>
+</html>
