@@ -1,0 +1,116 @@
+
+body {
+    background-color: #100e17;
+    font-family: 'Open Sans', sans-serif;
+    background-image:url('🦋.jpg');
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-attachment:fixed ;
+    position: relative;
+
+  }
+  
+
+  .player-zone {
+    position: fixed;
+    height: 300px;
+    bottom: -150px;
+    left: calc(50% - 340px);
+    display: flex;
+  }
+  
+  .card {
+    display: flex;
+    height: 150px;
+    width: 100px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: -1rem 0 3rem #000;
+    position: relative;
+    -webkit-transition: 2s;
+    -moz-transition: 2s;
+    -ms-transition: 2s;
+    -o-transition: 2s;
+    transition: 2s;
+}
+
+  
+
+.card:not(:first-child) {
+    margin-left: -50px;
+    transform: rotate(7deg);
+}
+
+.card:hover {
+  transform: translateY(-60px);
+}
+
+  .card-body {
+    color: rgb(0, 0, 0);
+    font-size: 60px;
+    padding: 30px;
+    padding-top: 40px;
+    padding-left: 25px;
+    text-align: center;
+  }
+
+  .card-title {
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    position: absolute;
+    left: 10px;
+    top: 2px;
+  }
+  .card-title2 {
+    color: rgb(0, 0, 0);
+    font-size: 30px;
+    position: absolute;
+    right: 10px;
+    bottom: 2px;
+  }
+  
+  .button{
+    color: #303030;
+    position: fixed;
+    bottom:10px;
+    right: 160px;
+    height: 130px;
+    font-size: 25px;
+    border-radius: 180%;
+    padding: 10px;
+    cursor: pointer;
+    background: linear-gradient(90deg, rgb(255, 247, 0) 0%, #f8ff28 100%);
+    border: none;
+    border-radius: 1000px;
+    box-shadow: 12px 12px 24px rgba(49, 52, 44, 0.64);
+
+  }
+
+
+  
+  .card.show {
+    animation-name: displayCard;
+    animation-duration: 0.6s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes displayCard {
+    0% {
+      transform: translateY(0) scale(1) rotate(0);
+    }
+  
+    100% {
+      transform: translate(-50%, calc(-40vh)) scale(2) rotate(-360deg);
+    }
+  }
+  
+  .card-body img {
+    color: rgb(0, 0, 0);
+    padding: 0px;
+    width: 100px;
+    height:140px;
+    border-radius: 10px;
+    margin: 0px;
+  }

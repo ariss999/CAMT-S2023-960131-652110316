@@ -6,16 +6,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-    .todo-item, .todo-button {
-      display: inline-block;
+    body{
+      background-color: pink;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+    .container{
+      margin: 100px;
+    }
+    .top{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+    }
+    .todo-list-container{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+   
+    
   </style>
 </head>
 <body>
   
     <div class="container">
+      <div class="top">
       <input type="text" id="todo-input" />
-      <button id="todo-add-button">add</button>
+      <button id="todo-add-button">add</button></div>
       <div id="todo-list-container">
         
       </div>
@@ -24,11 +45,11 @@
     <script>
       /* open crudcrud.com and then replace ID and resource name. */
 // BEGIN: configuration zone
-var CRUD_CURD_ID = "85bf148ed5544edda377d81dcfb49185";
-var CRUD_CURD_RESOURCE_NAME = "todo";
-var CURD_CURD_API_ENDPOINT =
-  "https://crudcrud.com/api/" + CRUD_CURD_ID + "/" + CRUD_CURD_RESOURCE_NAME;
-// END:configuration zone
+var CRUD_CRUD_ID = "e8f130f52801432491471940333eecbb";
+var CRUD_CRUD_RESOURCE_NAME = "todo";
+var CRUD_CRUD_API_ENDPOINT =
+  "https://crudcrud.com/api/" + CRUD_CRUD_ID + "/" + CRUD_CRUD_RESOURCE_NAME;
+// END: configuration zone
 
 // BEGIN: application variables zone
 var APPLICATION_STATE = {
@@ -47,15 +68,11 @@ function htmlToElem(html) {
 
 // BEGIN: API fetching zone
 function loadTodoList(afterLoadFunction) {
-  var headers = new Headers();
-  headers.append("Content-Type", "application/json");
-
   var requestOptions = {
-    method: "GET",
-    headers: headers
+    method: "GET"
   };
 
-  fetch(CURD_CURD_API_ENDPOINT, requestOptions).then(function (response) {
+  fetch(CRUD_CRUD_API_ENDPOINT, requestOptions).then(function (response) {
     response.json().then(function (data) {
       afterLoadFunction(data);
     });
@@ -63,36 +80,35 @@ function loadTodoList(afterLoadFunction) {
 }
 
 function addNewTodoItem(value, afterAddFunction) {
-  var headers = new Headers();
-  headers.append("Content-Type", "application/json");
-
   var requestOptions = {
     method: "POST",
     body: JSON.stringify({
       name: value
     }),
-    headers: headers
+    headers: {
+      "Content-Type": "application/json"
+    }
   };
 
-  fetch(CURD_CURD_API_ENDPOINT, requestOptions).then(function (response) {
+  fetch(CRUD_CRUD_API_ENDPOINT, requestOptions).then(function (response) {
     response.json().then(function (data) {
       afterAddFunction(data);
     });
   });
 }
 
-function deleteNewTodoItem(id, afterdeleteFunction) {
-  var headers = new Headers();
-  headers.append("Content-Type", "application/json");
-
+function deleteTodoItem(id, afterDeleteFunction) {
+  var deleteEndpoint = CRUD_CRUD_API_ENDPOINT + "/" + id;
   var requestOptions = {
     method: "DELETE",
-    headers: headers
-  };
-
-  fetch(CURD_CURD_API_ENDPOINT, requestOptions).then(function (response) {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }
+  refreshTodoList();
+  fetch(deleteEndpoint, requestOptions).then(function (response) {
     response.json().then(function (data) {
-      afterAddFunction(data);
+      afterDeleteFunction(data);
     });
   });
 }
@@ -112,15 +128,6 @@ function bindEvents() {
       });
     }
   });
-
-  var deleteButtonElm = document.getElementById("todo-button");
-  deleteButtonElm.addEventListener("click", function () {
-    var inputElm = document.getElementById("todo-button");
-      deleteNewTodoItem(inputElm, function () {
-        refreshTodoList()
-      });
-    
-  });
 }
 
 function renderTodoList() {
@@ -130,18 +137,31 @@ function renderTodoList() {
   for (var idx = 0; idx < APPLICATION_STATE.todoList.length; idx++) {
     var todoItem = APPLICATION_STATE.todoList[idx];
     var todoItemElm = htmlToElem(
-      '<div class="todo-item">' + todoItem.name + "</div>"
+      '<div class="todo-item">' + todoItem.name + '</div>'
     );
-    var todoItemElmbutton = htmlToElem(
-      '<button id="todo-button">add</button>'
+    var deleteButtonElm = htmlToElem(
+      '<button class="delete-button" data-id="' + todoItem._id + '">Delete</button>'
     );
-    todoItemElmbutton.setAttribute('id', todoItem._id);
     todoListElm.append(todoItemElm);
-    todoListElm.append(todoItemElmbutton);
+    todoListElm.append(deleteButtonElm);
   }
+  
+
+  // Bind delete event for each delete button
+  var deleteButtons = document.getElementsByClassName("delete-button");
+  for (var i = 0; i < deleteButtons.length; i++) {
+    deleteButtons[i].addEventListener("click", function () {
+      var todoId = this.getAttribute("data-id");
+      deleteTodoItem(todoId, function () {
+        refreshTodoList();
+        
+      });
+    });
+  }
+  
 }
 
-function refreshTodoList () {
+function refreshTodoList() {
   loadTodoList(function (data) {
     APPLICATION_STATE.todoList = data;
     renderTodoList();
@@ -154,7 +174,7 @@ window.onload = function () {
 };
 
 // END: UI Control and logic zone
-    </script>
+</script>
 
   
 </body>

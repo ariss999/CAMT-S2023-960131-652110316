@@ -1,0 +1,37 @@
+
+.bot1-zone {
+    position: fixed;
+    margin-top: 100px;
+    margin-left: 500px;
+    display: flex;
+    top: 50px;
+    flex-direction: column;
+    bottom: 110px;
+}
+
+
+  .card.bot1 {
+    height: 100px;
+    width: 150px;
+    background-color: #c61c1c;
+    border: 7px solid #ffffff;
+    border-radius: 10px;
+    box-shadow: -1rem 0 3rem #000;
+    position: relative;
+    text-align: center;
+}
+
+
+.card.bot1:not(:first-child) {
+    margin-top: -80px;
+    transform: rotate(4deg);
+}
+
+.card.bot1:hover {
+  transform: translatex(-80px);
+ 
+}
+  
+
+  
+
