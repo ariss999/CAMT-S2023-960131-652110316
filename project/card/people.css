@@ -1,0 +1,26 @@
+//*
+  .i1 {
+    position: fixed;
+     margin: 100px;
+     margin-left: 130px;
+     margin-top: 300px;
+  }
+  .i2 {
+    position: fixed;
+    margin: 100px;
+    margin-left:700px ;
+    margin-top: 470px;
+ }
+ .i3 { 
+    position: fixed;
+    margin: 100px;
+    margin-top: 300px;
+    margin-left: 1170px;
+ }
+ .i4 {
+    position: fixed;
+    margin-top: 110px;
+    margin-left: 700px;
+ }
+*//
+

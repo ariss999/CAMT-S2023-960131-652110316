@@ -1,0 +1,34 @@
+
+  .bot3-zone {
+    position: fixed;
+    left: 200px;
+    display: flex;
+    margin-left: -200px;
+    flex-direction: column;
+    top: 90px;
+  }
+  
+  .card.bot3 {
+    width: 160px;
+    height: 92px;
+    background-color: #c61c1c;
+    border: 7px solid #ffffff;
+    border-radius: 10px;
+    box-shadow: -1rem 0 3rem #000;
+    position: relative;
+    background-image: url('Moth in the Night - Copy.jpg');
+
+
+}
+.card.bot3:not(:first-child) {
+    margin-top: -60px;
+    transform: rotate(2deg);
+}
+
+
+.card.bot3:hover {
+  transform: translatex(80px);
+}
+
+  
+
