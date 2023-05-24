@@ -1,181 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <style>
-    body{
-      background-color: pink;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .container{
-      margin: 100px;
-    }
-    .top{
-      display: flex;
-      align-items: center;
-      justify-content: center;
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: pink;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        margin: 100px;
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px;
+      }
+      .todo-list-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      input {
+        width: 200px;
+        height: 50px;
+        border-radius: 10px;
+        margin-right: 20px;
+        background-color: aliceblue;
+      }
+      .button1 {
+        height: 50px;
+        width: 50px;
+        border-radius: 10px;
+      }
+      .content {
+        background-color: white;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 10px;
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <audio id="Audio-add">
+      <source src="1.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="Audio-delete">
+      <source src="2.mp3" type="audio/mp3" />
+    </audio>
 
-    }
-    .todo-list-container{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-   
-    
-  </style>
-</head>
-<body>
-  
     <div class="container">
       <div class="top">
-      <input type="text" id="todo-input" />
-      <button id="todo-add-button">add</button></div>
-      <div id="todo-list-container">
-        
+        <input type="text" id="todo-input" />
+        <button class="button1" onclick="addAudio()" id="todo-add-button">
+          add
+        </button>
       </div>
+      <div class="content" id="todo-list-container"></div>
     </div>
 
     <script>
       /* open crudcrud.com and then replace ID and resource name. */
-// BEGIN: configuration zone
-var CRUD_CRUD_ID = "e8f130f52801432491471940333eecbb";
-var CRUD_CRUD_RESOURCE_NAME = "todo";
-var CRUD_CRUD_API_ENDPOINT =
-  "https://crudcrud.com/api/" + CRUD_CRUD_ID + "/" + CRUD_CRUD_RESOURCE_NAME;
-// END: configuration zone
+      // BEGIN: configuration zone
+      var CRUD_CRUD_ID = "95254645bb2045eda02d77cad3ca8d6a";
+      var CRUD_CRUD_RESOURCE_NAME = "todo";
+      var CRUD_CRUD_API_ENDPOINT =
+        "https://crudcrud.com/api/" +
+        CRUD_CRUD_ID +
+        "/" +
+        CRUD_CRUD_RESOURCE_NAME;
+      // END: configuration zone
 
-// BEGIN: application variables zone
-var APPLICATION_STATE = {
-  todoList: []
-}
-// END: application variables zone
+      // BEGIN: application variables zone
+      var APPLICATION_STATE = {
+        todoList: [],
+      };
+      // END: application variables zone
 
-// BEGIN: utility function zone
-function htmlToElem(html) {
-  let temp = document.createElement("template");
-  html = html.trim(); // Never return a space text node as a result
-  temp.innerHTML = html;
-  return temp.content.firstChild;
-}
-// END: utility function zone
+      // BEGIN: utility function zone
+      function htmlToElem(html) {
+        let temp = document.createElement("template");
+        html = html.trim(); // Never return a space text node as a result
+        temp.innerHTML = html;
+        return temp.content.firstChild;
+      }
+      // END: utility function zone
 
-// BEGIN: API fetching zone
-function loadTodoList(afterLoadFunction) {
-  var requestOptions = {
-    method: "GET"
-  };
+      // BEGIN: API fetching zone
+      function loadTodoList(afterLoadFunction) {
+        var requestOptions = {
+          method: "GET",
+        };
 
-  fetch(CRUD_CRUD_API_ENDPOINT, requestOptions).then(function (response) {
-    response.json().then(function (data) {
-      afterLoadFunction(data);
-    });
-  });
-}
+        fetch(CRUD_CRUD_API_ENDPOINT, requestOptions).then(function (response) {
+          response.json().then(function (data) {
+            afterLoadFunction(data);
+          });
+        });
+      }
 
-function addNewTodoItem(value, afterAddFunction) {
-  var requestOptions = {
-    method: "POST",
-    body: JSON.stringify({
-      name: value
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
+      function addNewTodoItem(value, afterAddFunction) {
+        var requestOptions = {
+          method: "POST",
+          body: JSON.stringify({
+            name: value,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
 
-  fetch(CRUD_CRUD_API_ENDPOINT, requestOptions).then(function (response) {
-    response.json().then(function (data) {
-      afterAddFunction(data);
-    });
-  });
-}
+        fetch(CRUD_CRUD_API_ENDPOINT, requestOptions).then(function (response) {
+          response.json().then(function (data) {
+            afterAddFunction(data);
+          });
+        });
+      }
 
-function deleteTodoItem(id, afterDeleteFunction) {
-  var deleteEndpoint = CRUD_CRUD_API_ENDPOINT + "/" + id;
-  var requestOptions = {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }
-  refreshTodoList();
-  fetch(deleteEndpoint, requestOptions).then(function (response) {
-    response.json().then(function (data) {
-      afterDeleteFunction(data);
-    });
-  });
-}
-
-// END: API fetching zone
-
-// BEGIN: UI Control and logic zone
-function bindEvents() {
-  var addButtonElm = document.getElementById("todo-add-button");
-  addButtonElm.addEventListener("click", function () {
-    var inputElm = document.getElementById("todo-input");
-    var todoValue = inputElm.value;
-    inputElm.value = "";
-    if (todoValue !== "") {
-      addNewTodoItem(todoValue, function () {
-        refreshTodoList()
-      });
-    }
-  });
-}
-
-function renderTodoList() {
-  var todoListElm = document.getElementById("todo-list-container");
-  todoListElm.innerHTML = "";
-
-  for (var idx = 0; idx < APPLICATION_STATE.todoList.length; idx++) {
-    var todoItem = APPLICATION_STATE.todoList[idx];
-    var todoItemElm = htmlToElem(
-      '<div class="todo-item">' + todoItem.name + '</div>'
-    );
-    var deleteButtonElm = htmlToElem(
-      '<button class="delete-button" data-id="' + todoItem._id + '">Delete</button>'
-    );
-    todoListElm.append(todoItemElm);
-    todoListElm.append(deleteButtonElm);
-  }
-  
-
-  // Bind delete event for each delete button
-  var deleteButtons = document.getElementsByClassName("delete-button");
-  for (var i = 0; i < deleteButtons.length; i++) {
-    deleteButtons[i].addEventListener("click", function () {
-      var todoId = this.getAttribute("data-id");
-      deleteTodoItem(todoId, function () {
+      function deleteTodoItem(id, afterDeleteFunction) {
+        var deleteEndpoint = CRUD_CRUD_API_ENDPOINT + "/" + id;
+        var requestOptions = {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
         refreshTodoList();
-        
-      });
-    });
-  }
-  
-}
+        fetch(deleteEndpoint, requestOptions).then(function (response) {
+          response.json().then(function (data) {
+            afterDeleteFunction(data);
+          });
+        });
+      }
 
-function refreshTodoList() {
-  loadTodoList(function (data) {
-    APPLICATION_STATE.todoList = data;
-    renderTodoList();
-  });
-}
+      // END: API fetching zone
 
-window.onload = function () {
-  bindEvents();
-  refreshTodoList();
-};
+      // BEGIN: UI Control and logic zone
+      function bindEvents() {
+        var addButtonElm = document.getElementById("todo-add-button");
+        addButtonElm.addEventListener("click", function () {
+          var inputElm = document.getElementById("todo-input");
+          var todoValue = inputElm.value;
+          inputElm.value = "";
+          if (todoValue !== "") {
+            addNewTodoItem(todoValue, function () {
+              refreshTodoList();
+            });
+          }
+        });
 
-// END: UI Control and logic zone
-</script>
+        /*  var deleteButtons = document.getElementsByClassName("delete-button");
+        for (var i = 0; i < deleteButtons.length; i++) {
+          deleteButtons[i].addEventListener("click", function () {
+            var todoId = this.getAttribute("data-id");
+            deleteTodoItem(todoId, function () {
+              refreshTodoList();
+            });
+          });
+        }*/
+      }
 
-  
-</body>
+      function renderTodoList() {
+        var todoListElm = document.getElementById("todo-list-container");
+        todoListElm.innerHTML = "";
+
+        for (var idx = 0; idx < APPLICATION_STATE.todoList.length; idx++) {
+          var todoItem = APPLICATION_STATE.todoList[idx];
+          var todoItemElm = htmlToElem(
+            '<div class="todo-item">' + todoItem.name + "</div>"
+          );
+          var deleteButtonElm = htmlToElem(
+            '<button class="delete-button" onclick="deleteAudio()" data-id="' +
+              todoItem._id +
+              '">Delete</button>'
+          );
+          todoListElm.append(todoItemElm);
+          todoListElm.append(deleteButtonElm);
+        }
+
+        // Bind delete event for each delete button
+        var deleteButtons = document.getElementsByClassName("delete-button");
+        for (var i = 0; i < deleteButtons.length; i++) {
+          deleteButtons[i].addEventListener("click", function () {
+            var todoId = this.getAttribute("data-id");
+            deleteTodoItem(todoId, function () {
+              refreshTodoList();
+            });
+          });
+        }
+      }
+
+      function refreshTodoList() {
+        loadTodoList(function (data) {
+          APPLICATION_STATE.todoList = data;
+          renderTodoList();
+        });
+      }
+
+      var x = document.getElementById("Audio-add");
+      var y = document.getElementById("Audio-delete");
+
+      function addAudio() {
+        x.play();
+      }
+
+      function deleteAudio() {
+        y.play();
+      }
+
+      window.onload = function () {
+        bindEvents();
+        refreshTodoList();
+      };
+
+      // END: UI Control and logic zone
+    </script>
+  </body>
 </html>

@@ -44,6 +44,10 @@ var cardInHand = new Array(4); //ar
 var clickedCardValue = []; // ตัวแปรสำหรับเก็บค่าการ์ดที่ถูกคลิก
 var clickCount = 0;
 var click = 0;
+// var focusPlayer = document.getElementById("player");
+// var focusBot1 = document.getElementById("bot1");
+// var focusBot2 = document.getElementById("bot2");
+// var focusBot3 = document.getElementById("bot3");
 
 function renderCardList() {
   var cardPlayerZoneElm = document.getElementsByClassName("player-zone")[0];
@@ -66,18 +70,35 @@ function renderCardList() {
   for (var idx = 0; idx < cardInHandPlayer.length; idx++) {
     var card = cardInHandPlayer[idx];
     var cardElmPlayer;
-    cardElmPlayer = htmlToElem(
-      [
-        '<div class="card">',
-        '<div class="card-title">',
-        card.value[0],
-        '<div class="card-body" >',
-        '<div class="card-title2">',
-        card.value[1],
-        "</div>",
-        "</div>",
-      ].join("")
-    );
+
+    if (card.value[0] === "♥" || card.value[0] === "♦") {
+      cardElmPlayer = htmlToElem(
+        [
+          '<div class="card">',
+          '<div class="card-title red">',
+          card.value[0],
+          '<div class="card-body" >',
+          '<div class="card-title2 red">',
+          card.value[1],
+          "</div>",
+          "</div>",
+        ].join("")
+      );
+    } else {
+      cardElmPlayer = htmlToElem(
+        [
+          '<div class="card">',
+          '<div class="card-title">',
+          card.value[0],
+          '<div class="card-body" >',
+          '<div class="card-title2">',
+          card.value[1],
+          "</div>",
+          "</div>",
+        ].join("")
+      );
+    }
+
     index++;
     cardElmPlayer.setAttribute("id", card.id);
     cardPlayerZoneElm.append(cardElmPlayer);
@@ -107,7 +128,7 @@ function renderCardList() {
     cardElmBot2 = htmlToElem(
       [
         '<div class="card bot2">',
-        '<img src="Moth in the Night.jpg" style="width: 100px">',
+        '<img src="Moth in the Night - Copy - Copy.jpg" style="width: 150px">',
         '<div class="card-title"></div>',
         '<div class="card-body"></div>',
         '<div class="card-title2"></div>',
@@ -125,7 +146,7 @@ function renderCardList() {
     cardElmBot3 = htmlToElem(
       [
         '<div class="card bot3">',
-        '<img src="Moth in the Night - Copy.jpg" style="width: 150px">',
+        '<img src="Moth in the Night - Copy - Copy.jpg" style="width: 150px">',
         '<div class="card-title"></div>',
         '<div class="card-body"></div>',
         '<div class="card-title2"></div>',
@@ -183,32 +204,18 @@ function renderCardList() {
 
         if (clickCount === 1) {
           console.log("Clicked card id for match:", currentCardValue);
-          // setTimeout(() => {
-          //   clickCount = 0;
-          //   clickedCardValue = []; // รีเซ็ตค่าการ์ดที่ถูกคลิก
-          // }, 1000);
+          element.style.transform = "translateY(-60px)";
+          // element.card.add("show");
         } else if (clickCount === 2) {
           console.log("Clicked card id for match:", currentCardValue);
-          // กระทำหลังจากคลิกครั้งที่สอง
-
-          // var cardmatch = []
-          // var test = cardInHand[0];
-          // for(var idx=0; idx<test.length; idx++){
-          //   if(test[idx].id === clickedCardValue[0]){
-          //     cardmatch.push(test[idx].value[1]);
-          //   }
-          //   if(test[idx].id === clickedCardValue[1]){
-          //     cardmatch.push(test[idx].value[1]);
-          //   }
-
-          // }
-
-          // if (cardmatch[0] === cardmatch[1]) {
-          //   removeCardFromHand(0, clickedCardValue[0]);
-          //   removeCardFromHand(0, clickedCardValue[1]);
-          // }
-          // clickCount = 0;
-          // clickedCardValue = [];
+          element.style.transform = "translateY(-60px)";
+          // element.card.add("show");
+          if (clickedCardValue[0] === clickedCardValue[1]) {
+            element.style.transform = "translateY(0px)";
+            console.log("you click the same card");
+            console.log("array ckeck card match reset");
+            clickedCardValue = [];
+          }
         }
       } else {
         console.log("array ckeck card match reset");
@@ -217,11 +224,11 @@ function renderCardList() {
     });
   });
 
-  // window.localStorage.setItem("game-state0", JSON.stringify(cardInHandPlayer));
-  // window.localStorage.setItem("game-state1", JSON.stringify(cardInHandbot1));
-  // window.localStorage.setItem("game-state2", JSON.stringify(cardInHandbot2));
-  // window.localStorage.setItem("game-state3", JSON.stringify(cardInHandbot3));
-  // renderCardList();
+  // var focusPlayer = document.getElementById("player");
+  // focusPlayer.setAttribute("class","focus-player play")
+
+  window.localStorage.setItem("game-state", JSON.stringify(cardInHand));
+  window.localStorage.setItem("game-draw", JSON.stringify(click));
 }
 
 function getPlayerIndex(cardElement) {
@@ -260,6 +267,7 @@ function dealCard() {
       }
     }
   }
+  window.localStorage.setItem("game-state", JSON.stringify(cardInHand));
 }
 
 function generateCards() {
@@ -360,6 +368,30 @@ function drawCard(player, id) {
   }
 }
 
+// function matchCards(player) {
+//   var matchedCards = [];
+//   var playerHand = cardInHand[player];
+
+//   for (var i = 0; i < playerHand.length; i++) {
+//     for (var j = 0; j < playerHand.length; j++) {
+//       if (i != j) {
+//         if (playerHand[i].value[1] === playerHand[j].value[1]) {
+//           // Matching condition, adjust as per your game rules
+//           matchedCards.push(playerHand[i]);
+//           matchedCards.push(playerHand[j]);
+//           removeCardFromHand(player, playerHand[j].id); // เรียกใช้ฟังก์ชัน removeCardFromHand เพื่อลบการ์ดที่ตำแหน่ง j
+//           removeCardFromHand(player, playerHand[i].id); // เรียกใช้ฟังก์ชัน removeCardFromHand เพื่อลบการ์ดที่ตำแหน่ง i
+//            // ลดค่าตัวแปร j เนื่องจากเราลบการ์ดออกจาก playerHand
+//         }else{
+//           console.log("same card")
+//         }
+//       }
+//     }
+//   }
+//   console.log(matchedCards);
+//   return matchedCards;
+// }
+
 function matchCards(player) {
   var matchedCards = [];
   var playerHand = cardInHand[player];
@@ -367,18 +399,21 @@ function matchCards(player) {
   for (var i = 0; i < playerHand.length; i++) {
     for (var j = i + 1; j < playerHand.length; j++) {
       if (playerHand[i].value[1] === playerHand[j].value[1]) {
-        // Matching condition, adjust as per your game rules
         matchedCards.push(playerHand[i]);
         matchedCards.push(playerHand[j]);
-        removeCardFromHand(player, playerHand[j].id); // เรียกใช้ฟังก์ชัน removeCardFromHand เพื่อลบการ์ดที่ตำแหน่ง j
-        removeCardFromHand(player, playerHand[i].id); // เรียกใช้ฟังก์ชัน removeCardFromHand เพื่อลบการ์ดที่ตำแหน่ง i
-        j--; // ลดค่าตัวแปร j เนื่องจากเราลบการ์ดออกจาก playerHand
       }
     }
   }
+
+  for (var k = 0; k < matchedCards.length; k++) {
+    var matchedCardId = matchedCards[k].id;
+    removeCardFromHand(player, matchedCardId);
+  }
+
   console.log(matchedCards);
   return matchedCards;
 }
+
 
 //check game end
 function checkGameEnd() {
@@ -477,129 +512,144 @@ function checkGameEnd() {
 
 //
 
-function playerDraw() {
-  const elements = document.querySelectorAll(".card");
-  console.log("playyer draw");
-  elements.forEach((element, index) => {
-    element.addEventListener("click", (event) => {
-      var currentCardElm = event.currentTarget;
-      var currentCardId = currentCardElm.getAttribute("id");
-      console.log("Clicked card id:", currentCardId);
-      var playerIndex = getPlayerIndex(currentCardElm); // หาค่าดัชนีของผู้เล่นจากการ์ดที่ถูกคลิก
-      playerIndex = parseInt(playerIndex);
-      currentCardId = parseInt(currentCardId);
-      if (playerIndex == 1) {
-        drawCard(0, currentCardId);
-        removeCardFromHand(playerIndex, currentCardId); // เรียกใช้ฟังก์ชัน removeCardFromHand() เพื่อลบการ์ดที่ถูกคลิก
-        renderCardList(); // รีเรนเดอร์การ์ดใหม่หลังจากการ์ดถูกลบ
-      } else {
-        playerDraw();
-      }
-    });
-  });
-}
+// function playerDraw() {
+//   const elements = document.querySelectorAll(".card");
+//   console.log("playyer draw");
+//   elements.forEach((element, index) => {
+//     element.addEventListener("click", (event) => {
+//       var currentCardElm = event.currentTarget;
+//       var currentCardId = currentCardElm.getAttribute("id");
+//       console.log("Clicked card id:", currentCardId);
+//       var playerIndex = getPlayerIndex(currentCardElm); // หาค่าดัชนีของผู้เล่นจากการ์ดที่ถูกคลิก
+//       playerIndex = parseInt(playerIndex);
+//       currentCardId = parseInt(currentCardId);
+//       if (playerIndex == 1) {
+//         drawCard(0, currentCardId);
+//         removeCardFromHand(playerIndex, currentCardId); // เรียกใช้ฟังก์ชัน removeCardFromHand() เพื่อลบการ์ดที่ถูกคลิก
+//         renderCardList(); // รีเรนเดอร์การ์ดใหม่หลังจากการ์ดถูกลบ
+//       } else {
+//         playerDraw();
+//       }
+//     });
+//   });
+// }
 
-function playerPlay() {
-  console.log("playyer play");
-  const elements = document.querySelectorAll(".card");
-  let clickCount = 0;
-  let clickedCardValue = []; // ตัวแปรสำหรับเก็บค่าการ์ดที่ถูกคลิก
+// function playerPlay() {
+//   console.log("playyer play");
+//   const elements = document.querySelectorAll(".card");
+//   let clickCount = 0;
+//   let clickedCardValue = []; // ตัวแปรสำหรับเก็บค่าการ์ดที่ถูกคลิก
 
-  elements.forEach((element, index) => {
-    element.addEventListener("click", (event) => {
-      var currentCardElm = event.currentTarget;
-      var currentCardValue = currentCardElm.getAttribute("value");
-      console.log("Clicked card value:", currentCardValue);
-      var playerIndex = getPlayerIndex(currentCardElm);
-      playerIndex = parseInt(playerIndex);
-      currentCardValue = parseInt(currentCardValue);
+//   elements.forEach((element, index) => {
+//     element.addEventListener("click", (event) => {
+//       var currentCardElm = event.currentTarget;
+//       var currentCardValue = currentCardElm.getAttribute("value");
+//       console.log("Clicked card value:", currentCardValue);
+//       var playerIndex = getPlayerIndex(currentCardElm);
+//       playerIndex = parseInt(playerIndex);
+//       currentCardValue = parseInt(currentCardValue);
 
-      if (playerIndex == 0) {
-        clickCount++;
-        clickedCardValue.push(currentCardValue); // เพิ่มค่าการ์ดที่ถูกคลิกเข้าในอาร์เรย์ clickedCardIds
+//       if (playerIndex == 0) {
+//         clickCount++;
+//         clickedCardValue.push(currentCardValue); // เพิ่มค่าการ์ดที่ถูกคลิกเข้าในอาร์เรย์ clickedCardIds
 
-        if (clickCount === 1) {
-          setTimeout(() => {
-            clickCount = 0;
-            clickedCardValue = []; // รีเซ็ตค่าการ์ดที่ถูกคลิก
-          }, 1000);
-        } else if (clickCount === 2) {
-          // กระทำหลังจากคลิกครั้งที่สอง
+//         if (clickCount === 1) {
+//           setTimeout(() => {
+//             clickCount = 0;
+//             clickedCardValue = []; // รีเซ็ตค่าการ์ดที่ถูกคลิก
+//           }, 1000);
+//         } else if (clickCount === 2) {
+//           // กระทำหลังจากคลิกครั้งที่สอง
 
-          if (clickedCardValue[0] === clickedCardValue[1]) {
-            removeCardFromHand(playerIndex, clickedCardValue[0]);
-            removeCardFromHand(playerIndex, clickedCardValue[1]);
-          }
-          clickCount = 0;
-          clickedCardValue = [];
-        }
-      } else {
-        playerPlay();
-      }
-    });
-  });
-}
+//           if (clickedCardValue[0] === clickedCardValue[1]) {
+//             removeCardFromHand(playerIndex, clickedCardValue[0]);
+//             removeCardFromHand(playerIndex, clickedCardValue[1]);
+//           }
+//           clickCount = 0;
+//           clickedCardValue = [];
+//         }
+//       } else {
+//         playerPlay();
+//       }
+//     });
+//   });
+// }
 
-function playerTurn() {
-  playerDraw();
-  playerPlay();
-}
+// function playerTurn() {
+//   playerDraw();
+//   playerPlay();
+// }
 
 function botTurn() {
+  var focusPlayer = document.getElementById("player");
+  var focusBot1 = document.getElementById("bot1");
+  var focusBot2 = document.getElementById("bot2");
+  var focusBot3 = document.getElementById("bot3");
+  focusPlayer.setAttribute("class", "focus-player");
+
   console.log("bot play");
-  for (var player = 1; player < CARD_PLAYER.length; player++) {
-    console.log("bot :" + player);
-    if (player < 3) {
-      var card = cardInHand[player + 1];
-      var randomCard = Math.floor(Math.random() * card.length);
-      id = parseInt(card[randomCard].id);
-      if (player != 3) {
-        drawCard(player, id);
-        removeCardFromHand(player + 1, id);
-        matchCards(player);
-        checkGameEnd();
-        renderCardList();
-      } else {
-        drawCard(player, id);
-        removeCardFromHand(0, id);
-        matchCards(player);
-        checkGameEnd();
-        renderCardList();
-      }
-    } else {
-      var card = cardInHand[0];
-      var randomCard = Math.floor(Math.random() * card.length);
-      id = parseInt(card[randomCard].id);
-      if (player != 3) {
-        drawCard(player, id);
-        removeCardFromHand(player + 1, id);
-        matchCards(player);
-        checkGameEnd();
-        renderCardList();
-      } else {
-        drawCard(player, id);
-        removeCardFromHand(0, id);
-        matchCards(player);
-        checkGameEnd();
-        renderCardList();
-      }
-    }
+  for (var player = 1; player < CARD_PLAYER.length + 1; player++) {
+    setTimeout(
+      (player) => {
+        console.log("bot :" + player);
+        if (player == 1) {
+          focusBot1.setAttribute("class", "focus-bot1 play");
+          var card = cardInHand[player + 1];
+          var randomCard = Math.floor(Math.random() * card.length);
+          var id = parseInt(card[randomCard].id);
+          // if (player != 3) {
+          drawCard(player, id);
+          removeCardFromHand(player + 1, id);
+          matchCards(player);
+          checkGameEnd();
+          renderCardList();
+        } else if (player == 2) {
+          focusBot2.setAttribute("class", "focus-bot2 play");
+          focusBot1.setAttribute("class", "focus-bot1");
+          var card = cardInHand[player + 1];
+          var randomCard = Math.floor(Math.random() * card.length);
+          var id = parseInt(card[randomCard].id);
+          // if (player != 3) {
+          drawCard(player, id);
+          removeCardFromHand(player + 1, id);
+          matchCards(player);
+          checkGameEnd();
+          renderCardList();
+        } else if (player == 3) {
+          focusBot3.setAttribute("class", "focus-bot3 play");
+          focusBot2.setAttribute("class", "focus-bot2");
+          var card = cardInHand[0];
+          var randomCard = Math.floor(Math.random() * card.length);
+          id = parseInt(card[randomCard].id);
+          drawCard(player, id);
+          removeCardFromHand(0, id);
+          matchCards(player);
+          checkGameEnd();
+          renderCardList();
+        } else {
+          focusBot3.setAttribute("class", "focus-bot3");
+          focusPlayer.setAttribute("class", "focus-player play");
+        }
+      },
+      player * 2000,
+      player
+    ); // เวลาล่าช้าในการทำงานของแต่ละเสต็บ (player * 1000 มิลลิวินาที)
   }
 }
 
-function playGame() {
-  // Game loop
-  while (!checkGameEnd()) {
-    playerTurn();
+// function playGame() {
+//   // Game loop
+//   while (!checkGameEnd()) {
+//     playerTurn();
 
-    var nextTrunButton = document.getElementsByClassName("button")[0];
-    nextTrunButton.addEventListener("click", function () {
-      botTurn();
-    });
-    console.log(checkGameEnd());
-    checkGameEnd();
-  }
-}
+//     var nextTrunButton = document.getElementsByClassName("button")[0];
+//     nextTrunButton.addEventListener("click", function () {
+//       botTurn();
+//     });
+//     console.log(checkGameEnd());
+//     checkGameEnd();
+//   }
+// }
 
 function match(clickedCardValue) {
   var cardmatch = [];
@@ -625,63 +675,35 @@ function match(clickedCardValue) {
 }
 
 window.onload = function () {
-  // var previousGameState0 = window.localStorage.getItem("game-state0");
-  // var previousGameState1 = window.localStorage.getItem("game-state1");
-  // var previousGameState2 = window.localStorage.getItem("game-state2");
-  // var previousGameState3 = window.localStorage.getItem("game-state3");
+  var previousGameState = window.localStorage.getItem("game-state");
+  var previousGameDraw = window.localStorage.getItem("game-draw");
+  console.log(previousGameState);
+  console.log(previousGameDraw);
 
-  // console.log(previousGameState0);
-  // console.log(previousGameState1);
-  // console.log(previousGameState2);
-  // console.log(previousGameState3);
+  var focusPlayer = document.getElementById("player");
+  focusPlayer.setAttribute("class", "focus-player play");
 
-  // if (previousGameState0 === null && previousGameState1 === null && previousGameState2 === null && previousGameState3 === null) {
-  //   generateCards();
-  //   printCart();
-  //   console.log("shuffleCardList");
-  //   shuffleCardList();
-  //   printCart();
-  //   shuffleNumberOfCard();
-  //   dealCard();
-  //   renderCardList();
-  //   //setInterval(function() {
-  //   matchCards(0);
-  //   matchCards(1);
-  //   matchCards(2);
-  //   matchCards(3);
-  //   //}, 2000); // ค่าที่ระบุระยะเวลาในมิลลิวินาที (ในที่นี้คือ 2000 มิลลิวินาที = 2 วินาที)
+  if (previousGameState === null) {
+    generateCards();
+    printCart();
+    console.log("shuffleCardList");
+    shuffleCardList();
+    printCart();
+    shuffleNumberOfCard();
+    dealCard();
+    renderCardList();
+    matchCards(0);
+    matchCards(1);
+    matchCards(2);
+    matchCards(3);
+    printCartInHand();
+    console.log("start play game");
+  } else {
+    // renderCardList();
+    cardInHand = JSON.parse(previousGameState);
+    click = JSON.parse(previousGameDraw);
+  }
 
-  //   renderCardList();
-  //   printCartInHand();
-  //   console.log("start play game");
-  // } else {
-  //  // renderCardList();
-  //  cardInHand[0] = JSON.parse(previousGameState0)
-  //  cardInHand[1] = JSON.parse(previousGameState1)
-  //  cardInHand[2] = JSON.parse(previousGameState2)
-  //  cardInHand[3] = JSON.parse(previousGameState3)
-  // }
-
-  // renderCardList();
-
-  generateCards();
-  printCart();
-  console.log("shuffleCardList");
-  shuffleCardList();
-  printCart();
-  shuffleNumberOfCard();
-  dealCard();
-  renderCardList();
-  //setInterval(function() {
-  matchCards(0);
-  matchCards(1);
-  matchCards(2);
-  matchCards(3);
-  //}, 2000); // ค่าที่ระบุระยะเวลาในมิลลิวินาที (ในที่นี้คือ 2000 มิลลิวินาที = 2 วินาที)
-
-  renderCardList();
-  printCartInHand();
-  console.log("start play game");
   renderCardList();
 
   var nexturnButton = document.getElementsByClassName("button")[0];
@@ -699,5 +721,28 @@ window.onload = function () {
     match(clickedCardValue);
     renderCardList();
     checkGameEnd();
+  });
+
+  var reGameButton = document.getElementsByClassName("button-reGame")[0];
+  reGameButton.addEventListener("click", function () {
+    localStorage.removeItem("game-state");
+    localStorage.removeItem("game-draw");
+    generateCards();
+    printCart();
+    console.log("shuffleCardList");
+    shuffleCardList();
+    printCart();
+    shuffleNumberOfCard();
+    dealCard();
+    renderCardList();
+    matchCards(0);
+    matchCards(1);
+    matchCards(2);
+    matchCards(3);
+    printCartInHand();
+    console.log("start play game");
+    renderCardList();
+    console.log("Regame Click");
+    console.log("start play new game");
   });
 };

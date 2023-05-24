@@ -13,6 +13,7 @@
     
     <script src="logic-game.js" ></script>
     
+    
 </head>
 <body>
     <audio src="music.mp3" autoplay loop></audio>
@@ -34,17 +35,17 @@
       </rect>
       </svg>
     </div>
-   
-    <h3 style=" 
+  
+    <!-- <h3 class="focus-player focus" style=" 
          position: fixed;
          color: aliceblue;
          text-align: center;
          padding: 450px;
          left: 220px;
          margin: 80px;
-    ">YOU</h3>
+    ">YOU1</h3> -->
 
-    <h3 style=" position: fixed;
+    <!-- <h3 class="focus-player" style=" position: fixed;
     color: aliceblue;
     text-align: center;
     padding: 450px;
@@ -52,19 +53,32 @@
     margin-left: 500px;
     bottom: -140px">PLAYER1</h3>
 
-    <h3 style=" position: fixed;
+    <h3 class="focus-player" style=" position: fixed;
     color: aliceblue;
     text-align: center;
     padding: 450px;
     left: -250px;
-    bottom: -140px">PLAYER2</h3>
+    bottom: -140px">PLAYER3</h3>
 
-    <h3 style="position: fixed;
+    <h3 class="focus-player" style="position: fixed;
     color: aliceblue;
     text-align: center;
     padding: 450px;
     left: 250px;
-    bottom: 70px;">PLAYER3</h3>
+    bottom: 70px;">PLAYER2</h3> -->
+
+    <div class="focus-player" id="player">
+      YOU
+    </div>
+    <div class="focus-bot1" id="bot1">
+      PLAYER1
+    </div>
+    <div class="focus-bot2" id="bot2">
+      PLAYER2
+    </div>
+    <div class="focus-bot3" id="bot3">
+      PLAYER3
+    </div>
     
       
     <div class="player-zone">
@@ -88,10 +102,8 @@
     <div class="box">
         <button class="button" >Next Turn</button><br>
         <button  class="button-match"style="margin-top: 70px;"> Matching </button>
+        <button class="button-reGame" style="margin-top: -70px;">reGame</button>
       </div>
-
-   
-
 
   <script>
 
